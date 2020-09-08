@@ -1,38 +1,48 @@
 import React, { Component } from 'react'
-
+import PropTypes from 'prop-types';
 export class AddTodo extends Component {
 state={
 
     title: ''
 
 }
-    onChange = (e) => this.setState({
-            title: e.target.value 
+    onChange = (e) => this.setState({[e.target.name]: e.target.value 
     });
 
 
-    render() {
-        return (
-            <div>
-                <form style={{ display: 'flex'}}>
-                    <input 
-                        type="text"
-                        name="title"
-                        style = {{flex: ' 10',padding : '5px'}}
-                        placeholder="Add todo"
-                        vlue= {this.state.title}
-                        onChange= {this.OnChange}
-                         />
-                    <input
-                        type="submit"
-                        value="Submit"
-                        className="btn"
-                        style={{fllex:1}}
-                        />
-                </form>
-            </div>
-        )
+    onSubmit = (e)=> {
+        e.preventDefault();
+        this.props.AddTodo(this.state.title);
+        this.setState({title: ''})
     }
+
+    
+  render() {
+    return (
+      <form onSubmit={this.onSubmit} style={{ display: 'flex' , padding: '10px' }}>
+        <input 
+          type="text" 
+          name="title" 
+          style={{ flex: '10', padding: '5px' }}
+          placeholder="Add Todo ..." 
+          value={this.state.title}
+          onChange={this.onChange}
+        />
+        <input 
+          type="submit" 
+          value="Submit" 
+          className="btn"
+          style={{flex: '1', padding:'2px'}}
+        />
+      </form>
+    )
+  }
+}
+
+AddTodo.propTypes = {
+    AddTodos: PropTypes.func.isRequired,
+    markComplete: PropTypes.func.isRequired,
+    delTodo: PropTypes.func.isRequired
 }
 
 export default AddTodo
